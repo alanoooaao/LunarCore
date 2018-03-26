@@ -1,0 +1,61 @@
+# LunarCore
+[![Language](https://img.shields.io/badge/language-objc-orange.svg)](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/cyanzhong/LunarCore/blob/master/LICENSE)
+
+小历（iOS & OS X）的农历核心部分。
+
+# Why LunarCore
+
+<a href="https://itunes.apple.com/app/id1031088612">![](https://cdn.rawgit.com/cyanzhong/LunarCore/master/App_Store.svg)</a>
+<a href="https://itunes.apple.com/app/id1114272557">![](https://cdn.rawgit.com/cyanzhong/LunarCore/master/Mac_App_Store.svg)</a>
+
+LunarCore is a simple lunar calendar application currently supporting iOS and OS X platforms. LunarCore has been featured multiple times on the 
+iOS App Store. 
+![image](https://github.com/cyanzhong/LunarCore/raw/master/iOS.png)
+![image](https://github.com/cyanzhong/LunarCore/raw/master/Mac.png)
+
+# 前世今生
+LunarCore was developed from the JavaScript lunar calendar library：[LunarCalendar](https://github.com/zzyss86/LunarCalendar)。
+
+For performance reasons，I redeveloped the applicaion using Objective-C，and simultaneously changed the inaccuracy of the data in 
+the original application. 
+
+LunarCore 现已工作在小历上面，在未来可能会使用 Swift 重写。
+
+为了更灵活的抽离，LunarCore 不包含任何 UI 实现，所有的数据均以 Dictionary 的形式透出。
+
+# 食用方法
+```Objective-C
+#import "AppDelegate.h"
+#import "LunarCore.h"
+
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    NSDictionary *lunarCalendar = calendar(2016, 5);
+    NSLog(@"%@", lunarCalendar);
+    
+    return YES;
+}
+
+@end
+```
+
+即获得一个 2016年5月 的日历数据，你可以方便的用其实现 UI 部分，利用 LunarCore，我使用一周的时间将 iOS 版本的小历移植到了 OS X。
+
+更多内部接口请参考：[LunarCore/LunarCore.m](https://github.com/cyanzhong/LunarCore/blob/master/LunarCore/LunarCore.m)
+
+# Tips
+计算农历的耗时较长（主要是节气计算，如果你不需要也可以直接去掉），如果你在 UI 上面每次日历变化都计算一次，显然是不划算的做法。我个人的建议是做内存和文件缓存，小历的缓存策略如下（以 2016年5月 日历为例）：
+
+- 从内存中读取 2016.5 的日历
+- 没有读到的话从文件中读取
+- 还是没有读到的话构建 2016.5 的日历
+- 构建日历后缓存到文件和内存
+- 在子线程生成上个月和下个月的日历
+
+# Contact Information
+[![Weibo](https://img.shields.io/badge/weibo-%20@StackOverflowError%20-red.svg)](http://weibo.com/0x00eeee/)
+[![Twitter](https://img.shields.io/badge/twitter-@cyanapps-green.svg)](https://twitter.com/cyanapps)
+[![Email](https://img.shields.io/badge/email-log.e@qq.com-blue.svg)](mailto:log.e@qq.com)
